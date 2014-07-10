@@ -51,11 +51,11 @@
 @synthesize shadowOffset;
 @synthesize shadowColor;
 @synthesize shine;
-@synthesize font;
+@synthesize font = _font;
 @synthesize fillColor;
 @synthesize strokeColor;
 @synthesize strokeWidth;
-@synthesize textColor;
+@synthesize textColor = _textColor;
 @synthesize alignment;
 @dynamic badgeSize;
 @synthesize pad;
@@ -108,10 +108,10 @@
 
 - (void)dealloc 
 {
-    [font release];
+    [_font release];
     [fillColor release];
     [strokeColor release];
-    [textColor release];
+    [_textColor release];
     [shadowColor release];
     
     [super dealloc];
@@ -234,11 +234,11 @@
 	CGPathRelease(badgePath);
 	
 	CGContextSaveGState( curContext );
-	CGContextSetFillColorWithColor( curContext, self.textColor.CGColor );
 		
 	CGPoint textPt = CGPointMake( ctm.x + (badgeRect.size.width - numberSize.width)/2 + self.adjustOffset.x, ctm.y + (badgeRect.size.height - numberSize.height)/2 + self.adjustOffset.y);
 	
-	[numberString drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font }];
+	[numberString drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font,
+                                                       NSForegroundColorAttributeName : self.textColor }];
 
 	CGContextRestoreGState( curContext );
 
@@ -271,6 +271,34 @@
 }
 
 #pragma mark -- property methods --
+
+- (void)setFont:(UIFont *)font
+{
+    
+    if ( _font != font ) {
+        
+        if ( !font ) {
+            font = [UIFont boldSystemFontOfSize:16]; //default - cannot be nil or drawAtPoint:withAttributes: attributes dict in drawRect: will crash
+        }
+        _font = font;
+        
+    }
+    
+}
+
+- (void)setTextColor:(UIColor *)textColor
+{
+    
+    if ( _textColor != textColor ) {
+        
+        if ( !textColor ) {
+            textColor = [UIColor whiteColor]; //default - cannot be nil or drawAtPoint:withAttributes: attributes dict in drawRect: will crash
+        }
+        _textColor = textColor;
+        
+    }
+    
+}
 
 - (void)setValue:(NSUInteger)inValue
 {
