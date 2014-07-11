@@ -25,10 +25,6 @@
 #define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
 #endif
 
-#if __has_feature(objc_arc) && __clang_major__ >= 3
-#error "iPhoneMK is not designed to be used with ARC. Please add '-fno-objc-arc' to the compiler flags of iPhoneMK files."
-#endif // __has_feature(objc_arc)
-
 
 #import "MKNumberBadgeView.h"
 
@@ -104,17 +100,6 @@
     self.textFormat = @"%d";
     
 	self.backgroundColor = [UIColor clearColor];
-}
-
-- (void)dealloc 
-{
-    [_font release];
-    [fillColor release];
-    [strokeColor release];
-    [_textColor release];
-    [shadowColor release];
-    
-    [super dealloc];
 }
 
 
