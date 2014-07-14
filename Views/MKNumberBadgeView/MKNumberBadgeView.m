@@ -31,6 +31,8 @@
 
 @interface MKNumberBadgeView ()
 
+@property (nonatomic, strong) NSMutableDictionary *attributes;
+
 //
 // private methods
 //
@@ -99,6 +101,8 @@
 	self.adjustOffset = CGPointZero;
     self.textFormat = @"%d";
     
+    self.attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.font, NSFontAttributeName, self.textColor, NSForegroundColorAttributeName, nil];
+    
 	self.backgroundColor = [UIColor clearColor];
 }
 
@@ -112,7 +116,7 @@
 	NSString* numberString = [NSString stringWithFormat:self.textFormat,self.value];
 	
 	
-	CGSize numberSize = [numberString sizeWithAttributes:@{ NSFontAttributeName : self.font }];
+	CGSize numberSize = [numberString sizeWithAttributes:self.attributes];
 		
 	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
 	
@@ -222,8 +226,7 @@
 		
 	CGPoint textPt = CGPointMake( ctm.x + (badgeRect.size.width - numberSize.width)/2 + self.adjustOffset.x, ctm.y + (badgeRect.size.height - numberSize.height)/2 + self.adjustOffset.y);
 	
-	[numberString drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font,
-                                                       NSForegroundColorAttributeName : self.textColor }];
+	[numberString drawAtPoint:textPt withAttributes:self.attributes];
 
 	CGContextRestoreGState( curContext );
 
@@ -267,6 +270,8 @@
         }
         _font = font;
         
+        [self.attributes setValue:_font forKey:NSFontAttributeName];
+        
     }
     
 }
@@ -280,6 +285,8 @@
             textColor = [UIColor whiteColor]; //default - cannot be nil or drawAtPoint:withAttributes: attributes dict in drawRect: will crash
         }
         _textColor = textColor;
+        
+        [self.attributes setValue:_textColor forKey:NSForegroundColorAttributeName];
         
     }
     
@@ -299,7 +306,7 @@
 	NSString* numberString = [NSString stringWithFormat:self.textFormat,self.value];
 	
 	
-	CGSize numberSize = [numberString sizeWithAttributes:@{ NSFontAttributeName : self.font }];
+	CGSize numberSize = [numberString sizeWithAttributes:self.attributes];
 	
 	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
 	
