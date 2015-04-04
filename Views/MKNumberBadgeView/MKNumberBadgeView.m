@@ -25,10 +25,6 @@
 #define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
 #endif
 
-#if __has_feature(objc_arc) && __clang_major__ >= 3
-#error "iPhoneMK is not designed to be used with ARC. Please add '-fno-objc-arc' to the compiler flags of iPhoneMK files."
-#endif // __has_feature(objc_arc)
-
 
 #import "MKNumberBadgeView.h"
 
@@ -61,23 +57,24 @@
 @synthesize pad;
 @synthesize hideWhenZero;
 
-- (id)initWithFrame:(CGRect)frame 
+- (id)initWithFrame:(CGRect)frame
 {
-    if ((self = [super initWithFrame:frame])) 
-	{
+    self = [super initWithFrame:frame];
+    if ( self )
+    {
         // Initialization code
-		
-		[self initState];
+        [self initState];
     }
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	if ((self = [super initWithCoder:decoder]))
-	{
+    self = [super initWithCoder:decoder];
+    if ( self )
+    {
         // Initialization code
-		[self initState];
+        [self initState];
     }
     return self;
 }
@@ -255,36 +252,22 @@
 
 #pragma mark -- property methods --
 
-- (void)setFont:(UIFont *)font
+- (UIFont *)font
 {
-    
-    if ( _font != font ) {
-        
-        if ( !font ) {
-            font = [UIFont boldSystemFontOfSize:16]; //default - cannot be nil or drawAtPoint:withAttributes: attributes dict in drawRect: will crash
-        }
-        _font = font;
-        
-        [self.attributes setValue:_font forKey:NSFontAttributeName];
-        
+    // attributes dictionary requires return value
+    if ( !_font ) {
+        return [UIFont boldSystemFontOfSize:16]; //default
     }
-    
+    return _font;
 }
 
-- (void)setTextColor:(UIColor *)textColor
+- (UIColor *)textColor
 {
-    
-    if ( _textColor != textColor ) {
-        
-        if ( !textColor ) {
-            textColor = [UIColor whiteColor]; //default - cannot be nil or drawAtPoint:withAttributes: attributes dict in drawRect: will crash
-        }
-        _textColor = textColor;
-        
-        [self.attributes setValue:_textColor forKey:NSForegroundColorAttributeName];
-        
+    // attributes dictionary requires return value
+    if ( !_textColor ) {
+        return [UIColor whiteColor]; //default;
     }
-    
+    return _textColor;
 }
 
 - (void)setValue:(NSUInteger)inValue
