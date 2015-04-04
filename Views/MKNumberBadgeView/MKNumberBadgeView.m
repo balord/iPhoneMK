@@ -25,13 +25,15 @@
 #define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
 #endif
 
+#if __has_feature(objc_arc) && __clang_major__ >= 3
+#error "iPhoneMK is not designed to be used with ARC. Please add '-fno-objc-arc' to the compiler flags of iPhoneMK files."
+#endif // __has_feature(objc_arc)
+
 
 #import "MKNumberBadgeView.h"
 
 
 @interface MKNumberBadgeView ()
-
-@property (nonatomic, strong) NSMutableDictionary *attributes;
 
 //
 // private methods
@@ -101,8 +103,6 @@
 	self.adjustOffset = CGPointZero;
     self.textFormat = @"%d";
     
-    self.attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.font, NSFontAttributeName, self.textColor, NSForegroundColorAttributeName, nil];
-    
 	self.backgroundColor = [UIColor clearColor];
 }
 
@@ -116,7 +116,7 @@
 	NSString* numberString = [NSString stringWithFormat:self.textFormat,self.value];
 	
 	
-	CGSize numberSize = [numberString sizeWithAttributes:self.attributes];
+    CGSize numberSize = [numberString sizeWithAttributes:@{ NSFontAttributeName : self.font }];
 		
 	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
 	
@@ -222,14 +222,9 @@
 	CGContextRestoreGState( curContext );
 	CGPathRelease(badgePath);
 	
-	CGContextSaveGState( curContext );
-		
 	CGPoint textPt = CGPointMake( ctm.x + (badgeRect.size.width - numberSize.width)/2 + self.adjustOffset.x, ctm.y + (badgeRect.size.height - numberSize.height)/2 + self.adjustOffset.y);
 	
-	[numberString drawAtPoint:textPt withAttributes:self.attributes];
-
-	CGContextRestoreGState( curContext );
-
+    [numberString drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font, NSForegroundColorAttributeName : self.textColor }];
 }
 
 
@@ -306,7 +301,7 @@
 	NSString* numberString = [NSString stringWithFormat:self.textFormat,self.value];
 	
 	
-	CGSize numberSize = [numberString sizeWithAttributes:self.attributes];
+	CGSize numberSize = [numberString sizeWithAttributes:@{ NSFontAttributeName : self.font }];
 	
 	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
 	
