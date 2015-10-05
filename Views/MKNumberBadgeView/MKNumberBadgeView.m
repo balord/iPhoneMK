@@ -42,20 +42,7 @@
 
 
 @implementation MKNumberBadgeView
-@synthesize value=_value;
-@synthesize shadow;
-@synthesize shadowOffset;
-@synthesize shadowColor;
-@synthesize shine;
-@synthesize font = _font;
-@synthesize fillColor;
-@synthesize strokeColor;
-@synthesize strokeWidth;
-@synthesize textColor = _textColor;
-@synthesize alignment;
 @dynamic badgeSize;
-@synthesize pad;
-@synthesize hideWhenZero;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -272,11 +259,15 @@
 
 - (void)setValue:(NSUInteger)inValue
 {
-	_value = inValue;
-    
-    self.hidden = self.hideWhenZero && _value == 0;
-	
-	[self setNeedsDisplay];
+    if ( _value != inValue ) {
+        
+        _value = inValue;
+        
+        self.hidden = self.hideWhenZero && _value == 0;
+        
+        [self setNeedsDisplay];
+        
+    }
 }
 
 - (CGSize)badgeSize
