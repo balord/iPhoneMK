@@ -29,7 +29,11 @@
 #import "MKNumberBadgeView.h"
 
 
-@interface MKNumberBadgeView ()
+@interface MKNumberBadgeView () {
+	UIFont *_font;
+	CGSize _numberSize;
+	NSString *_textValue;
+}
 
 //
 // private methods
@@ -86,6 +90,8 @@
     self.hideWhenZero = NO;
 	self.adjustOffset = CGPointZero;
     self.textFormat = @"%d";
+    self.value = 0;
+    self.textValue = @"";
     
 	self.backgroundColor = [UIColor clearColor];
 }
@@ -93,16 +99,13 @@
 
 - (void)drawRect:(CGRect)rect 
 {
+	[super drawRect:rect];
+	
 	CGRect viewBounds = self.bounds;
 	
 	CGContextRef curContext = UIGraphicsGetCurrentContext();
-
-	NSString* numberString = [NSString stringWithFormat:self.textFormat,self.value];
-	
-	
-    CGSize numberSize = [numberString sizeWithAttributes:@{ NSFontAttributeName : self.font }];
-		
-	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
+    
+	CGPathRef badgePath = [self newBadgePathForTextSize:_numberSize];
 	
 	CGRect badgeRect = CGPathGetBoundingBox(badgePath);
 	
@@ -206,9 +209,9 @@
 	CGContextRestoreGState( curContext );
 	CGPathRelease(badgePath);
 	
-	CGPoint textPt = CGPointMake( ctm.x + (badgeRect.size.width - numberSize.width)/2 + self.adjustOffset.x, ctm.y + (badgeRect.size.height - numberSize.height)/2 + self.adjustOffset.y);
+	CGPoint textPt = CGPointMake( ctm.x + (badgeRect.size.width - _numberSize.width)/2 + self.adjustOffset.x, ctm.y + (badgeRect.size.height - _numberSize.height)/2 + self.adjustOffset.y);
 	
-    [numberString drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font, NSForegroundColorAttributeName : self.textColor }];
+    [self.textValue drawAtPoint:textPt withAttributes:@{ NSFontAttributeName : self.font, NSForegroundColorAttributeName : self.textColor }];
 }
 
 
@@ -248,6 +251,16 @@
     return _font;
 }
 
+- (void) setFont:(UIFont *)font
+{
+	if ( _font != font ) {
+		
+		_font = font;
+		_numberSize = [self.textValue sizeWithAttributes:@{ NSFontAttributeName : _font }];
+		
+	}
+}
+
 - (UIColor *)textColor
 {
     // attributes dictionary requires return value
@@ -263,21 +276,37 @@
         
         _value = inValue;
         
-        self.hidden = self.hideWhenZero && _value == 0;
+        _textValue = [NSString stringWithFormat:self.textFormat, _value];
+        _numberSize = [_textValue sizeWithAttributes:@{ NSFontAttributeName : self.font }];
         
         [self setNeedsDisplay];
         
     }
+	
+	self.hidden = self.hideWhenZero && _value == 0;
+}
+
+- (void) setTextValue:(NSString *)textValue
+{
+    if ( _textValue != textValue ) {
+        
+		if ( !textValue )
+			textValue = @"";
+        _textValue = [textValue copy];
+		
+		_numberSize = [_textValue sizeWithAttributes:@{ NSFontAttributeName : self.font }];
+        _value = 0;
+        
+        [self setNeedsDisplay];
+        
+    }
+		
+	self.hidden = self.hideWhenZero && [_textValue length] == 0;
 }
 
 - (CGSize)badgeSize
 {
-	NSString* numberString = [NSString stringWithFormat:self.textFormat,self.value];
-	
-	
-	CGSize numberSize = [numberString sizeWithAttributes:@{ NSFontAttributeName : self.font }];
-	
-	CGPathRef badgePath = [self newBadgePathForTextSize:numberSize];
+	CGPathRef badgePath = [self newBadgePathForTextSize:_numberSize];
 	
 	CGRect badgeRect = CGPathGetBoundingBox(badgePath);
 	

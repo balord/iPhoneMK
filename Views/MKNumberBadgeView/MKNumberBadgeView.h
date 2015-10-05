@@ -43,6 +43,8 @@
 // The current value displayed in the badge. Updating the value will update the view's display
 @property (nonatomic)           NSUInteger value;
 
+// The current value displayed in the badge - either the value property formatted as a string according to textFormat or the value from setting textValue. Updating textValue will reset the value property to 0 and will update the view's display
+@property (nonatomic, strong)   NSString *textValue;
 
 // Indicates whether the badge view draws a dhadow or not.
 @property (nonatomic)           BOOL shadow;
