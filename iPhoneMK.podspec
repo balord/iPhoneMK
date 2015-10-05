@@ -62,7 +62,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'MKNumberBadgeView' do |ss|
     ss.source_files = 'Views/MKNumberBadgeView/*.{h,m}'
-    ss.requires_arc = false
+    ss.requires_arc = true
   end
 
   s.subspec 'MKSoundCoordinatedAnimationView' do |ss|

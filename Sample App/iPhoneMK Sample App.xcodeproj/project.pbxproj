@@ -23,7 +23,7 @@
 		4C1DF60114F60B6E00AE7949 /* NetworkImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DF5FF14F60B6E00AE7949 /* NetworkImageViewController.xib */; };
 		4C1DF61B14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF60E14F60C0A00AE7949 /* MKSwitchControlTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C1DF61C14F60C0A00AE7949 /* MKNetworkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61214F60C0A00AE7949 /* MKNetworkImageView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		4C1DF61D14F60C0A00AE7949 /* MKNumberBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61514F60C0A00AE7949 /* MKNumberBadgeView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4C1DF61D14F60C0A00AE7949 /* MKNumberBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61514F60C0A00AE7949 /* MKNumberBadgeView.m */; };
 		4C1DF61E14F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61814F60C0A00AE7949 /* MKSoundCoordinatedAnimationLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C1DF61F14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DF61A14F60C0A00AE7949 /* MKSoundCoordinatedAnimationView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C1DF62214F60F6000AE7949 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1DF62114F60F6000AE7949 /* QuartzCore.framework */; };
