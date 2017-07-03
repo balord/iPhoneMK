@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'iPhoneMK'
-  s.version  = '1.2.3'
+  s.version  = '1.4.0'
   s.license = {
      :type => 'Apache License, Version 2.0',
      :text => <<-LICENSE
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.summary  = 'iPhoneMK is a loose collection of Objective-C classes for the iPhone SDK.'
   s.homepage = 'https://github.com/michaelkamprath/iPhoneMK'
   s.author   = { 'Michael F. Kamprath' => 'michael@claireware.com' }
-  s.source   = { :git => 'https://github.com/michaelkamprath/iPhoneMK.git', :tag => '1.2.3' }
+  s.source   = { :git => 'https://github.com/michaelkamprath/iPhoneMK.git', :tag => "#{s.version}" }
   s.platform = :ios
   s.frameworks   = ['AVFoundation', 'QuartzCore']
   s.default_subspec = 'All'
